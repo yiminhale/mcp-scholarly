@@ -2,7 +2,7 @@
 
 A MCP server to search for accurate academic articles. More scholarly vendors will be added soon.
 
-![demo1.jpeg](examples/demo1.jpeg)
+![demo1.jpeg](examples/demo1.png)
 
 ## Components
 
