@@ -1,11 +1,9 @@
-import asyncio
-
 from mcp.server.models import InitializationOptions
 import mcp.types as types
 from mcp.server import NotificationOptions, Server
 import mcp.server.stdio
-from google_scholar import GoogleScholar
-from arxiv_search import ArxivSearch
+from .arxiv_search import ArxivSearch
+from .google_scholar import GoogleScholar
 
 server = Server("mcp-scholarly")
 
@@ -50,7 +48,7 @@ async def handle_call_tool(
     Handle tool execution requests.
     Tools can modify server state and notify clients of changes.
     """
-    if name != "search-arxiv":
+    if name != "search-arxiv" and name != "search-google-scholar":
         raise ValueError(f"Unknown tool: {name}")
 
     if not arguments:
