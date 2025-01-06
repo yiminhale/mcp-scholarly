@@ -4,10 +4,10 @@ from mcp.server.models import InitializationOptions
 import mcp.types as types
 from mcp.server import NotificationOptions, Server
 import mcp.server.stdio
-import arxiv
+from google_scholar import GoogleScholar
+from arxiv_search import ArxivSearch
 
 server = Server("mcp-scholarly")
-client = arxiv.Client()
 
 
 @server.list_tools()
@@ -20,6 +20,17 @@ async def handle_list_tools() -> list[types.Tool]:
         types.Tool(
             name="search-arxiv",
             description="Search arxiv for articles related to the given keyword.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "keyword": {"type": "string"},
+                },
+                "required": ["keyword"],
+            },
+        ),
+        types.Tool(
+            name="search-google-scholar",
+            description="Search google scholar for articles related to the given keyword.",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -52,29 +63,13 @@ async def handle_call_tool(
 
     # Notify clients that resources have changed
     await server.request_context.session.send_resource_list_changed()
-
-    search = arxiv.Search(query=keyword, max_results=10, sort_by=arxiv.SortCriterion.SubmittedDate)
-
-    results = client.results(search)
-
-    all_results = list(results)
-
     formatted_results = []
-
-    for result in all_results:
-        title = result.title
-        summary = result.summary
-        links = "||".join([link.href for link in result.links])
-        pdf_url = result.pdf_url
-
-        article_data = "\n".join([
-            f"Title: {title}",
-            f"Summary: {summary}",
-            f"Links: {links}",
-            f"PDF URL: {pdf_url}",
-        ])
-
-        formatted_results.append(article_data)
+    if name == "search-arxiv":
+        arxiv_search = ArxivSearch()
+        formatted_results = arxiv_search.search(keyword)
+    elif name == "search-google-scholar":
+        google_scholar = GoogleScholar()
+        formatted_results = google_scholar.search_pubs(keyword=keyword)
 
     return [
         types.TextContent(
