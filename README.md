@@ -57,6 +57,24 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
   ```
 </details>
 
+or if you are using Docker
+
+<details>
+  <summary>Published Docker Servers Configuration</summary>
+  ```
+  "mcpServers": {
+    "mcp-scholarly": {
+      "command": "docker",
+      "args": [
+        "run", "--rm", "-i",
+        "mcp/scholarly"
+      ]
+    }
+  }
+  ```
+</details>
+
+
 ## Development
 
 ### Building and Publishing
