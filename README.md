@@ -1,4 +1,5 @@
 # mcp-scholarly MCP server
+[![smithery badge](https://smithery.ai/badge/mcp-scholarly)](https://smithery.ai/server/mcp-scholarly)
 
 A MCP server to search for accurate academic articles. More scholarly vendors will be added soon.
 
@@ -74,6 +75,13 @@ or if you are using Docker
   ```
 </details>
 
+### Installing via Smithery
+
+To install mcp-scholarly for Claude Desktop automatically via [Smithery](https://smithery.ai/server/mcp-scholarly):
+
+```bash
+npx -y @smithery/cli install mcp-scholarly --client claude
+```
 
 ## Development
 
